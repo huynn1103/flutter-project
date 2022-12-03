@@ -1,6 +1,7 @@
 import 'package:student_internships_management/models/Student.dart';
 
 class Report {
+  num id;
   Student student;
   String deTai;
   String noiDung;
@@ -22,12 +23,22 @@ class Report {
     student = value;
   }
 
-  Report({this.student, this.deTai, this.noiDung, this.ngayBaoCao});
+  Report({this.id, this.student, this.deTai, this.noiDung, this.ngayBaoCao});
 
   Report.cloneByObject(Report s) {
     this.noiDung = s.noiDung;
     this.ngayBaoCao = s.ngayBaoCao;
     this.deTai = s.deTai;
     this.student = s.student;
+  }
+
+  factory Report.fromJson(Map<String, dynamic> obj) {
+    return Report(
+      id: obj['id'],
+      student: Student.fromJson(obj['student']),
+      deTai: obj['deTai'],
+      noiDung: obj['noiDung'],
+      ngayBaoCao: DateTime.parse(obj['ngayBaoCao']),
+    );
   }
 }

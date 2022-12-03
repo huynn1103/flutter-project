@@ -304,28 +304,34 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                             final noiDung = conNoiDung.text;
                             final ngayBaoCao = conNgayBaoCao.text;
 
-                            Teacher teacher =
-                                new Teacher(widget?.student?.giangVienHuongDan);
+                            Teacher teacher = new Teacher(
+                              tenGiangVien: widget?.student?.giangVienHuongDan,
+                              khoa: departments[1],
+                            );
 
                             Classroom classroom = new Classroom(
-                                widget?.student?.lopHocPhan?.tenLop,
-                                10,
-                                departments[1],
-                                teacher);
+                              tenLop: widget?.student?.lopHocPhan?.tenLop,
+                              soLuong: 10,
+                              khoa: departments[1],
+                              giangVien: teacher,
+                            );
 
                             Student student = new Student(
-                                widget?.student?.maSinhVien,
-                                widget?.student?.tenSinhVien,
-                                widget?.student?.chuyenNganh,
-                                widget?.student?.giangVienHuongDan,
-                                widget?.student?.noiThucTap,
-                                classroom);
+                              maSinhVien: widget?.student?.maSinhVien,
+                              tenSinhVien: widget?.student?.tenSinhVien,
+                              chuyenNganh: widget?.student?.chuyenNganh,
+                              giangVienHuongDan:
+                                  widget?.student?.giangVienHuongDan,
+                              noiThucTap: widget?.student?.noiThucTap,
+                              lopHocPhan: classroom,
+                            );
 
                             Report newReport = new Report(
-                                student: student,
-                                deTai: deTai,
-                                noiDung: noiDung,
-                                ngayBaoCao: DateTime.parse(ngayBaoCao));
+                              student: student,
+                              deTai: deTai,
+                              noiDung: noiDung,
+                              ngayBaoCao: DateTime.parse(ngayBaoCao),
+                            );
 
                             if (widget.setStateView == null) {
                               reports.add(newReport);

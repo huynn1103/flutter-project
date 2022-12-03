@@ -378,18 +378,26 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                             final noiThucTap = conNoiThucTap;
                             final tenLop = conLopHocPhan;
 
-                            Teacher teacher = new Teacher(giaoVienHuongDan);
+                            Teacher teacher = new Teacher(
+                              tenGiangVien: giaoVienHuongDan,
+                              khoa: departments[1],
+                            );
 
                             Classroom classroom = new Classroom(
-                                tenLop, 10, departments[1], teacher);
+                              tenLop: tenLop,
+                              soLuong: 10,
+                              khoa: departments[1],
+                              giangVien: teacher,
+                            );
 
                             Student newStudent = new Student(
-                                maSinhVien,
-                                tenSinhVien,
-                                chuyenNganh,
-                                giaoVienHuongDan,
-                                noiThucTap,
-                                classroom);
+                              maSinhVien: maSinhVien,
+                              tenSinhVien: tenSinhVien,
+                              chuyenNganh: chuyenNganh,
+                              giangVienHuongDan: giaoVienHuongDan,
+                              noiThucTap: noiThucTap,
+                              lopHocPhan: classroom,
+                            );
 
                             if (widget.setStateView == null) {
                               students.add(newStudent);

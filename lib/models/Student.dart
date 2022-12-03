@@ -1,12 +1,15 @@
 import 'package:student_internships_management/models/Classroom.dart';
+import 'package:student_internships_management/models/Company.dart';
+import 'package:student_internships_management/models/Major.dart';
+import 'package:student_internships_management/models/Teacher.dart';
 
 class Student {
+  num id;
   String maSinhVien;
   String tenSinhVien;
   String chuyenNganh;
   String giangVienHuongDan;
   String noiThucTap;
-  bool status;
   Classroom lopHocPhan;
 
   set setMaSinhVien(String value) {
@@ -29,17 +32,19 @@ class Student {
     noiThucTap = value;
   }
 
-  set setStatus(bool value) {
-    status = value;
-  }
-
   set setLop(Classroom value) {
     lopHocPhan = value;
   }
 
-  Student(this.maSinhVien, this.tenSinhVien, this.chuyenNganh,
-      this.giangVienHuongDan, this.noiThucTap, this.lopHocPhan,
-      [this.status = true]);
+  Student({
+    this.id,
+    this.maSinhVien,
+    this.tenSinhVien,
+    this.chuyenNganh,
+    this.giangVienHuongDan,
+    this.noiThucTap,
+    this.lopHocPhan,
+  });
 
   Student.cloneByObject(Student s) {
     this.maSinhVien = s.maSinhVien;
@@ -48,5 +53,17 @@ class Student {
     this.giangVienHuongDan = s.giangVienHuongDan;
     this.noiThucTap = s.noiThucTap;
     this.lopHocPhan = s.lopHocPhan;
+  }
+
+  factory Student.fromJson(Map<String, dynamic> obj) {
+    return Student(
+      id: obj['id'],
+      maSinhVien: obj['maSinhVien'],
+      tenSinhVien: obj['tenSinhVien'],
+      chuyenNganh: Major.fromJson(obj['major']).tenChuyenNganh,
+      giangVienHuongDan: Teacher.fromJson(obj['teacher']).tenGiangVien,
+      noiThucTap: Company.fromJson(obj['company']).tenDoanhNghiep,
+      lopHocPhan: Classroom.fromJson(obj['classroom']),
+    );
   }
 }
