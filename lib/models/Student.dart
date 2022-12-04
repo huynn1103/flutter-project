@@ -4,7 +4,7 @@ import 'package:student_internships_management/models/Major.dart';
 import 'package:student_internships_management/models/Teacher.dart';
 
 class Student {
-  num id;
+  String id;
   String maSinhVien;
   String tenSinhVien;
   String chuyenNganh;
@@ -57,7 +57,7 @@ class Student {
 
   factory Student.fromJson(Map<String, dynamic> obj) {
     return Student(
-      id: obj['id'],
+      id: obj['id'].toString(),
       maSinhVien: obj['maSinhVien'],
       tenSinhVien: obj['tenSinhVien'],
       chuyenNganh: Major.fromJson(obj['major']).tenChuyenNganh,

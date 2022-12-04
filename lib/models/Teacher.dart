@@ -1,7 +1,7 @@
 import 'package:student_internships_management/models/Department.dart';
 
 class Teacher {
-  num id;
+  String id;
   String tenGiangVien;
   Department khoa;
 
@@ -9,7 +9,7 @@ class Teacher {
 
   factory Teacher.fromJson(Map<String, dynamic> obj) {
     return Teacher(
-      id: obj['id'],
+      id: obj['id'].toString(),
       tenGiangVien: obj['tenGiangVien'],
       khoa: Department.fromJson(obj['department']),
     );
