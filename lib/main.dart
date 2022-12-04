@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_internships_management/providers/ClassroomProvider.dart';
 import 'package:student_internships_management/providers/DepartmentProvider.dart';
 import 'package:student_internships_management/views/ListClassroom/WrapListClassroom.dart';
 import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
@@ -15,6 +16,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<DepartmentProvider>(
           create: (context) => DepartmentProvider(),
+        ),
+        ChangeNotifierProvider<ClassroomProvider>(
+          create: (context) => ClassroomProvider(),
         ),
       ],
       child: MaterialApp(

@@ -39,7 +39,8 @@ class _MainDrawerState extends State<MainDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => WrapListClassroom(),
+                builder: (BuildContext context) =>
+                    WrapListClassroom(departmentId: e.id),
               ),
             );
           },

@@ -7,6 +7,10 @@ import 'package:student_internships_management/widgets/App/AppCardDetail.dart';
 import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 
 class WrapListClassroom extends StatefulWidget {
+  const WrapListClassroom({Key key, this.departmentId}) : super(key: key);
+
+  final String departmentId;
+
   @override
   _WrapListClassroomState createState() => _WrapListClassroomState();
 }
@@ -65,7 +69,7 @@ class _WrapListClassroomState extends State<WrapListClassroom>
                     ),
                     child: TabBarView(
                       children: <Widget>[
-                        ListClassroom(),
+                        ListClassroom(departmentId: widget.departmentId),
                       ],
                     ),
                   ),

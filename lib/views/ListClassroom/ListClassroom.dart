@@ -2,11 +2,15 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pandabar/main.view.dart';
 import 'package:pandabar/pandabar.dart';
-import 'package:student_internships_management/data/dummyData.dart';
+import 'package:provider/provider.dart';
+import 'package:student_internships_management/models/Classroom.dart';
+import 'package:student_internships_management/providers/ClassroomProvider.dart';
 import 'package:student_internships_management/widgets/Classroom/CardClassroom.dart';
 
 class ListClassroom extends StatefulWidget {
-  const ListClassroom({Key key}) : super(key: key);
+  const ListClassroom({Key key, this.departmentId}) : super(key: key);
+
+  final String departmentId;
 
   @override
   _ListClassroomState createState() => _ListClassroomState();
@@ -14,6 +18,30 @@ class ListClassroom extends StatefulWidget {
 
 class _ListClassroomState extends State<ListClassroom> {
   int _bottomNavIndex = 0;
+  List<Classroom> classes = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var classroomProvider = Provider.of<ClassroomProvider>(
+      context,
+      listen: false,
+    );
+    if (widget.departmentId != null) {
+      classroomProvider.findAll(widget.departmentId).then((value) {
+        setState(() {
+          classes = value;
+        });
+      });
+    } else {
+      classroomProvider.findAll('1').then((value) {
+        setState(() {
+          classes = value;
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
