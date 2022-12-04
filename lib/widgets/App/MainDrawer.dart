@@ -18,8 +18,10 @@ class _MainDrawerState extends State<MainDrawer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    var departmentProvider =
-        Provider.of<DepartmentProvider>(context, listen: false);
+    var departmentProvider = Provider.of<DepartmentProvider>(
+      context,
+      listen: false,
+    );
     departmentProvider.findAll().then((value) {
       setState(() {
         departments = value;
