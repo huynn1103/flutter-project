@@ -33,19 +33,19 @@ class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
               ),
             )
           : null,
-      actions: [
-        notificationenabled == true
-            ? InkWell(
-                onTap: () {},
-                child: Image.asset(
-                  "assets/message.png",
-                  width: 35,
-                ),
-              )
-            : SizedBox(
-                width: 1,
-              ),
-      ],
+      // actions: [
+      //   notificationenabled == true
+      //       ? InkWell(
+      //           onTap: () {},
+      //           child: Image.asset(
+      //             "assets/message.png",
+      //             width: 35,
+      //           ),
+      //         )
+      //       : SizedBox(
+      //           width: 1,
+      //         ),
+      // ],
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0.0,

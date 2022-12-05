@@ -7,10 +7,16 @@ class CardClassroom extends StatefulWidget {
   final List<Classroom> listView;
   final int index;
   final Function(VoidCallback fn) setState;
+  final String classroomId;
 
-  const CardClassroom(
-      {Key key, this.classroom, this.listView, this.index, this.setState})
-      : super(key: key);
+  const CardClassroom({
+    Key key,
+    this.classroom,
+    this.listView,
+    this.index,
+    this.setState,
+    this.classroomId,
+  }) : super(key: key);
 
   @override
   _CardClassroomState createState() => _CardClassroomState();
@@ -113,7 +119,8 @@ class _CardClassroomState extends State<CardClassroom>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WrapperList(),
+                builder: (context) =>
+                    WrapperList(classroomId: widget.classroomId),
               ),
             );
           },

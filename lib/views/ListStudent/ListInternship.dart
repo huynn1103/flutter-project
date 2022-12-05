@@ -1,14 +1,20 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:student_internships_management/data/dummyData.dart';
+import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Student.dart';
+import 'package:student_internships_management/providers/StudentProvider.dart';
 import 'package:student_internships_management/views/StudentDetail/CreateOrEditStudent.dart';
 import 'package:student_internships_management/widgets/Student/CardStudent.dart';
 
 class ListInternship extends StatefulWidget {
   final bool isReport;
+  final String classroomId;
 
-  const ListInternship({Key key, this.isReport}) : super(key: key);
+  const ListInternship({
+    Key key,
+    this.isReport,
+    this.classroomId,
+  }) : super(key: key);
 
   @override
   _ListInternshipState createState() => _ListInternshipState();
@@ -19,32 +25,51 @@ class _ListInternshipState extends State<ListInternship> {
   TextEditingController editingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<Student> listStudent = [];
+  List<Student> students = [];
 
   @override
   void initState() {
     super.initState();
-    students.map((e) => listStudent.add(e)).toList();
-  }
-
-  void filterSearchResults(String querySearch) {
-    if (querySearch.isNotEmpty) {
-      listStudent.forEach((item) {
-        if (item.tenSinhVien.contains(querySearch)) {
-          listStudent.add(item);
-        }
+    var studentProvider = Provider.of<StudentProvider>(
+      context,
+      listen: false,
+    );
+    if (widget.classroomId != null) {
+      studentProvider.findAll(widget.classroomId).then((value) {
+        value.map((e) => listStudent.add(e)).toList();
+        setState(() {
+          students = value;
+        });
       });
-      setState(() {
-        listStudent.clear();
-        listStudent = students;
-      });
-      return;
     } else {
-      setState(() {
-        listStudent.clear();
-        listStudent = students;
+      studentProvider.findAll('1').then((value) {
+        value.map((e) => listStudent.add(e)).toList();
+        setState(() {
+          students = value;
+        });
       });
     }
   }
+
+  // void filterSearchResults(String querySearch) {
+  //   if (querySearch.isNotEmpty) {
+  //     listStudent.forEach((item) {
+  //       if (item.tenSinhVien.contains(querySearch)) {
+  //         listStudent.add(item);
+  //       }
+  //     });
+  //     setState(() {
+  //       listStudent.clear();
+  //       listStudent = students;
+  //     });
+  //     return;
+  //   } else {
+  //     setState(() {
+  //       listStudent.clear();
+  //       listStudent = students;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +87,8 @@ class _ListInternshipState extends State<ListInternship> {
                   ),
                   TextField(
                     onChanged: (value) {
-                      filterSearchResults(value);
-                      editingController.clear();
+                      // filterSearchResults(value);
+                      // editingController.clear();
                     },
                     autofocus: false,
                     controller: editingController,
@@ -89,12 +114,14 @@ class _ListInternshipState extends State<ListInternship> {
                           : EdgeInsets.only(bottom: 15),
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                            child: CardStudent(
-                                student: listStudent[index],
-                                listView: listStudent,
-                                index: index,
-                                setState: setState,
-                                isReport: widget.isReport));
+                          child: CardStudent(
+                            student: listStudent[index],
+                            listView: listStudent,
+                            index: index,
+                            setState: setState,
+                            isReport: widget.isReport,
+                          ),
+                        );
                       },
                     ),
                   )

@@ -14,11 +14,4 @@ class Teacher {
       khoa: Department.fromJson(obj['department']),
     );
   }
-
-  factory Teacher.fromJsonExceptDepartment(Map<String, dynamic> obj) {
-    return Teacher(
-      id: obj['id'].toString(),
-      tenGiangVien: obj['tenGiangVien'],
-    );
-  }
 }

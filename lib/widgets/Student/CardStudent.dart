@@ -235,7 +235,8 @@ class _CardStudentState extends State<CardStudent>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${widget.student.tenSinhVien}",
+                                      // "${widget.student.tenSinhVien}",
+                                      '',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,

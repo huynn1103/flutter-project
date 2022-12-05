@@ -48,19 +48,23 @@ class _ListClassroomState extends State<ListClassroom> {
     return Scaffold(
       body: classes.isEmpty
           ? Center(
-              child:
-                  Text('Danh sách lớp trống', style: TextStyle(fontSize: 18)))
+              child: Text(
+              'Danh sách lớp trống',
+              style: TextStyle(fontSize: 18),
+            ))
           : ListView.builder(
               itemCount: classes.length,
               padding: EdgeInsets.only(bottom: 15),
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                    child: CardClassroom(
-                  classroom: classes[index],
-                  listView: classes,
-                  index: index,
-                  setState: setState,
-                ));
+                  child: CardClassroom(
+                    classroom: classes[index],
+                    listView: classes,
+                    index: index,
+                    setState: setState,
+                    classroomId: classes[index].id,
+                  ),
+                );
               },
             ),
       bottomNavigationBar: BubbleBottomBar(

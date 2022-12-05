@@ -15,7 +15,7 @@ class Classroom {
       id: obj['id'].toString(),
       tenLop: obj['tenLop'],
       khoa: Department.fromJson(obj['department']),
-      giangVien: Teacher.fromJsonExceptDepartment(obj['teacher']),
+      giangVien: Teacher.fromJson(obj['teacher']),
       soLuong: obj['soLuong'],
     );
   }
