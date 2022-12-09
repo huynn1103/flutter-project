@@ -35,14 +35,20 @@ class _CardStudentState extends State<CardStudent>
     // TODO: implement initState
     super.initState();
 
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
+    animationController = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+    animation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn),
+    );
 
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.3, 0.7, curve: Curves.fastOutSlowIn)));
+        curve: Interval(0.3, 0.7, curve: Curves.fastOutSlowIn),
+      ),
+    );
   }
 
   @override
@@ -235,8 +241,7 @@ class _CardStudentState extends State<CardStudent>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      // "${widget.student.tenSinhVien}",
-                                      '',
+                                      "${widget.student.maSinhVien}",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,

@@ -15,9 +15,13 @@ class CreateOrEditStudent extends StatefulWidget {
   final int index;
   final Function(VoidCallback fn) setStateView;
 
-  const CreateOrEditStudent(
-      {Key key, this.student, this.listView, this.index, this.setStateView})
-      : super(key: key);
+  const CreateOrEditStudent({
+    Key key,
+    this.student,
+    this.listView,
+    this.index,
+    this.setStateView,
+  }) : super(key: key);
 
   @override
   _CreateOrEditStudentState createState() => _CreateOrEditStudentState();
@@ -30,6 +34,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
   AnimationController animationController;
 
   Student student;
+  String classroomId;
 
   TextEditingController conMaSinhVien = TextEditingController();
   TextEditingController conTenSinhVien = TextEditingController();
@@ -39,6 +44,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     // TODO: implement initState
     super.initState();
     student = widget.student;
+    classroomId = widget.student.lopHocPhan.id;
 
     conMaSinhVien.text = student?.maSinhVien;
     conTenSinhVien.text = student?.tenSinhVien;
@@ -48,18 +54,30 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     conGiangVien = student?.giangVienHuongDan;
     conLopHocPhan = student?.lopHocPhan?.tenLop;
 
-    animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn));
-
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+    animationController = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+    animation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
+        curve: Curves.fastOutSlowIn,
+      ),
+    );
 
-    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
+    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
+        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn),
+      ),
+    );
+
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn),
+      ),
+    );
   }
 
   @override
@@ -326,7 +344,10 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                     ),
                     Transform(
                       transform: Matrix4.translationValues(
-                          muchDelayedAnimation.value * width, 0, 0),
+                        muchDelayedAnimation.value * width,
+                        0,
+                        0,
+                      ),
                       child: Text(
                         "Nơi thực tập *",
                         style: TextStyle(
@@ -421,7 +442,9 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => WrapperList(),
+                                builder: (context) => WrapperList(
+                                  classroomId: classroomId,
+                                ),
                               ),
                             );
                           }

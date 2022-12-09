@@ -349,9 +349,13 @@ class _StudentDetailState extends State<StudentDetail>
                       child: BouncingButton(
                         onPress: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WrapperList()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WrapperList(
+                                classroomId: widget.student.lopHocPhan.id,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           //height: 20,

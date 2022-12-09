@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:student_internships_management/data/dummyData.dart';
+import 'package:provider/provider.dart';
+import 'package:student_internships_management/models/Classroom.dart';
+import 'package:student_internships_management/models/Department.dart';
+import 'package:student_internships_management/providers/ClassroomProvider.dart';
+import 'package:student_internships_management/providers/DepartmentProvider.dart';
 
 class AppCardDetail extends StatefulWidget {
+  final String classroomId;
+  final String departmentId;
+
+  const AppCardDetail({
+    Key key,
+    this.classroomId,
+    this.departmentId,
+  }) : super(key: key);
+
   @override
   _AppCardDetailState createState() => _AppCardDetailState();
 }
@@ -11,10 +24,36 @@ class _AppCardDetailState extends State<AppCardDetail>
   Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
   AnimationController animationController;
 
+  String departmentName = '';
+  String classroomName = '';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    var departmentProvider = Provider.of<DepartmentProvider>(
+      context,
+      listen: false,
+    );
+    if (widget.departmentId != null) {
+      departmentProvider.findOne(widget.departmentId).then((value) {
+        setState(() {
+          departmentName = 'Khoa ${value.tenKhoa}';
+        });
+      });
+    }
+
+    var classroomProvider = Provider.of<ClassroomProvider>(
+      context,
+      listen: false,
+    );
+    if (widget.classroomId != null) {
+      classroomProvider.findOne(widget.classroomId).then((value) {
+        setState(() {
+          classroomName = value.tenLop;
+        });
+      });
+    }
 
     animationController =
         AnimationController(duration: Duration(seconds: 3), vsync: this);
@@ -104,7 +143,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      "Khoa Công nghệ thông tin (Nhớ fix)",
+                                      departmentName,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 21,
@@ -116,7 +155,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                     height: 10,
                                   ),
                                   Text(
-                                    "${classes[0].tenLop} (Nhớ fix)",
+                                    classroomName,
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,

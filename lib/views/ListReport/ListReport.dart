@@ -1,8 +1,10 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:student_internships_management/data/dummyData.dart';
+import 'package:provider/provider.dart';
+// import 'package:student_internships_management/data/dummyData.dart';
 import 'package:student_internships_management/models/Report.dart';
 import 'package:student_internships_management/models/Student.dart';
+import 'package:student_internships_management/providers/ReportProvider.dart';
 import 'package:student_internships_management/views/ReportDetail/CreateOrEditReport.dart';
 import 'package:student_internships_management/widgets/Report/CartReport.dart';
 
@@ -22,12 +24,23 @@ class _ListReportInternshipState extends State<ListReportInternship> {
   @override
   void initState() {
     super.initState();
-    _student = widget.student;
-    reports.map((e) {
-      if (e.student.maSinhVien == _student.maSinhVien) {
-        listReport.add(e);
-      }
-    }).toList();
+    var reportProvider = Provider.of<ReportProvider>(
+      context,
+      listen: false,
+    );
+    if (widget.student.id != null) {
+      reportProvider.findAll(widget.student.id).then((value) {
+        setState(() {
+          listReport = value;
+        });
+      });
+    } else {
+      reportProvider.findAll('0').then((value) {
+        setState(() {
+          listReport = value;
+        });
+      });
+    }
   }
 
   int _bottomNavIndex = 0;

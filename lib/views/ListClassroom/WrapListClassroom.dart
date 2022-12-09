@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_internships_management/models/Department.dart';
 import 'package:student_internships_management/views/ListClassroom/ListClassroom.dart';
 import 'package:student_internships_management/views/ListReport/ListReport.dart';
 import 'package:student_internships_management/views/ListStudent/ListInternship.dart';
@@ -17,6 +18,14 @@ class WrapListClassroom extends StatefulWidget {
 
 class _WrapListClassroomState extends State<WrapListClassroom>
     with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // String departmentId = widget.departmentId ?? '1';
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey =
@@ -39,7 +48,9 @@ class _WrapListClassroomState extends State<WrapListClassroom>
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            AppCardDetail(),
+            AppCardDetail(
+              departmentId: widget.departmentId,
+            ),
             DefaultTabController(
               length: 1, // length of tabs
               initialIndex: 0,

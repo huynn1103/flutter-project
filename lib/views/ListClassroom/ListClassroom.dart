@@ -62,7 +62,6 @@ class _ListClassroomState extends State<ListClassroom> {
                     listView: classes,
                     index: index,
                     setState: setState,
-                    classroomId: classes[index].id,
                   ),
                 );
               },
@@ -95,49 +94,53 @@ class _ListClassroomState extends State<ListClassroom> {
         //optional, uses theme color if not specified
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-              backgroundColor: Colors.red,
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.dashboard,
-                color: Colors.red,
-              ),
-              title: Text("Home")),
+            backgroundColor: Colors.red,
+            icon: Icon(
+              Icons.dashboard,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.dashboard,
+              color: Colors.red,
+            ),
+            title: Text("Home"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.deepPurple,
-              icon: Icon(
-                Icons.access_time,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.access_time,
-                color: Colors.deepPurple,
-              ),
-              title: Text("Logs")),
+            backgroundColor: Colors.deepPurple,
+            icon: Icon(
+              Icons.access_time,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.access_time,
+              color: Colors.deepPurple,
+            ),
+            title: Text("Logs"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.indigo,
-              icon: Icon(
-                Icons.folder_open,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.folder_open,
-                color: Colors.indigo,
-              ),
-              title: Text("Folders")),
+            backgroundColor: Colors.indigo,
+            icon: Icon(
+              Icons.folder_open,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.folder_open,
+              color: Colors.indigo,
+            ),
+            title: Text("Folders"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.green,
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.menu,
-                color: Colors.green,
-              ),
-              title: Text("Menu"))
+            backgroundColor: Colors.green,
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.menu,
+              color: Colors.green,
+            ),
+            title: Text("Menu"),
+          )
         ],
       ),
     );

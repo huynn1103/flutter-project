@@ -7,10 +7,12 @@ import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 
 class WrapperList extends StatefulWidget {
   final String classroomId;
+  final String departmentId;
 
   const WrapperList({
     Key key,
     this.classroomId,
+    this.departmentId,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,10 @@ class _WrapperListState extends State<WrapperList>
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            AppCardDetail(),
+            AppCardDetail(
+              classroomId: widget.classroomId,
+              departmentId: widget.departmentId,
+            ),
             DefaultTabController(
               length: 2, // length of tabs
               initialIndex: 0,
