@@ -38,7 +38,10 @@ class _WrapListReportState extends State<WrapListReport>
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            AppCardDetail(),
+            AppCardDetail(
+              classroomId: widget.student.lopHocPhan.id,
+              departmentId: widget.student.lopHocPhan.khoa.id,
+            ),
             DefaultTabController(
               length: 1, // length of tabs
               initialIndex: 0,

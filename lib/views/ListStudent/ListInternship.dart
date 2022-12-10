@@ -9,11 +9,13 @@ import 'package:student_internships_management/widgets/Student/CardStudent.dart'
 class ListInternship extends StatefulWidget {
   final bool isReport;
   final String classroomId;
+  final String departmentId;
 
   const ListInternship({
     Key key,
     this.isReport,
     this.classroomId,
+    this.departmentId,
   }) : super(key: key);
 
   @override
@@ -134,7 +136,10 @@ class _ListInternshipState extends State<ListInternship> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateOrEditStudent(),
+                    builder: (context) => CreateOrEditStudent(
+                      classroomId: widget.classroomId,
+                      departmentId: widget.departmentId,
+                    ),
                   ),
                 );
               },

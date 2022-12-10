@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Student.dart';
+import 'package:student_internships_management/providers/StudentProvider.dart';
 import 'package:student_internships_management/views/ListReport/ListReport.dart';
 import 'package:student_internships_management/views/ListReport/WrapListReport.dart';
+import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
 import 'package:student_internships_management/views/StudentDetail/CreateOrEditStudent.dart';
 import 'package:student_internships_management/views/StudentDetail/StudentDetail.dart';
 
@@ -109,7 +112,7 @@ class _CardStudentState extends State<CardStudent>
                           ),
                           widget.isReport == false
                               ? Text(
-                                  "${widget.student.chuyenNganh}",
+                                  "${widget.student.chuyenNganh.tenChuyenNganh}",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
@@ -117,7 +120,7 @@ class _CardStudentState extends State<CardStudent>
                                   ),
                                 )
                               : Text(
-                                  "${widget.student.noiThucTap}",
+                                  "${widget.student.noiThucTap.tenDoanhNghiep}",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
@@ -150,10 +153,15 @@ class _CardStudentState extends State<CardStudent>
                                                     builder: (context) =>
                                                         CreateOrEditStudent(
                                                       student: widget.student,
-                                                      listView: widget.listView,
-                                                      index: widget.index,
-                                                      setStateView:
-                                                          widget.setState,
+                                                      classroomId: widget
+                                                          .student
+                                                          .lopHocPhan
+                                                          .id,
+                                                      departmentId: widget
+                                                          .student
+                                                          .lopHocPhan
+                                                          .khoa
+                                                          .id,
                                                     ),
                                                   ),
                                                 );
@@ -192,29 +200,41 @@ class _CardStudentState extends State<CardStudent>
                                                     MaterialStateProperty.all(Colors
                                                         .redAccent), // button color
                                               ),
-                                              onPressed: () {
-                                                Student tempStudent =
-                                                    new Student.cloneByObject(
-                                                        widget.student);
-                                                widget.setState(() {
-                                                  widget.listView
-                                                      .removeAt(widget.index);
-                                                });
+                                              onPressed: () async {
+                                                var studentProvider = Provider
+                                                    .of<StudentProvider>(
+                                                  context,
+                                                  listen: false,
+                                                );
+
+                                                await studentProvider
+                                                    .delete(widget.student.id);
+
                                                 final snackBar = SnackBar(
                                                   content: const Text(
-                                                      'Đã xoá thành công'),
-                                                  action: SnackBarAction(
-                                                    label: 'Khôi phục',
-                                                    onPressed: () {
-                                                      widget.setState(() {
-                                                        widget.listView
-                                                            .add(tempStudent);
-                                                      });
-                                                    },
+                                                    'Đã xoá thành công',
                                                   ),
                                                 );
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
+
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        WrapperList(
+                                                      classroomId: widget
+                                                          .student
+                                                          .lopHocPhan
+                                                          .id,
+                                                      departmentId: widget
+                                                          .student
+                                                          .lopHocPhan
+                                                          .khoa
+                                                          .id,
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                               child: Column(
                                                 mainAxisAlignment:

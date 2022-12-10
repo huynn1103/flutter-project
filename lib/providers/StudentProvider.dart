@@ -29,31 +29,31 @@ class StudentProvider extends ChangeNotifier {
     return Student.fromJson(jsonObject);
   }
 
-  Future<bool> create(Student model) async {
-    String apiURL = 'http://localhost:5000/student/';
+  Future<bool> createOrUpdate(Student model) async {
     var client = http.Client();
     Map<String, String> headers = {"Content-type": "application/json"};
-    String body = '{"tenSinhVien": "${model.tenSinhVien}"}';
-    http.Response response = await client.post(
-      Uri.parse(apiURL),
-      headers: headers,
-      body: body,
-    );
-    debugPrint('Create student.');
-    return response.statusCode == 200;
-  }
+    String body =
+        '{"maSinhVien": "${model.maSinhVien}", "tenSinhVien": "${model.tenSinhVien}", "majorId": "${model.chuyenNganh.id}", "teacherId": "${model.giangVienHuongDan.id}", "companyId": "${model.noiThucTap.id}", "classroomId": "${model.lopHocPhan.id}"}';
+    http.Response response;
 
-  Future<bool> update(Student model) async {
-    String apiURL = 'http://localhost:5000/student/${model.id}';
-    var client = http.Client();
-    Map<String, String> headers = {"Content-type": "application/json"};
-    String body = '{"tenSinhVien": "${model.tenSinhVien}"}';
-    http.Response response = await client.patch(
-      Uri.parse(apiURL),
-      headers: headers,
-      body: body,
-    );
-    debugPrint('Update student.');
+    if (model.id == '0') {
+      String apiURL = 'http://localhost:5000/student/';
+      response = await client.post(
+        Uri.parse(apiURL),
+        headers: headers,
+        body: body,
+      );
+      debugPrint('Create student.');
+    } else {
+      String apiURL = 'http://localhost:5000/student/${model.id}';
+      response = await client.patch(
+        Uri.parse(apiURL),
+        headers: headers,
+        body: body,
+      );
+      debugPrint('Update student.');
+    }
+
     return response.statusCode == 200;
   }
 

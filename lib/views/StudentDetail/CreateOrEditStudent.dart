@@ -1,9 +1,16 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:student_internships_management/data/dummyData.dart';
+import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Classroom.dart';
+import 'package:student_internships_management/models/Company.dart';
+import 'package:student_internships_management/models/Major.dart';
 import 'package:student_internships_management/models/Student.dart';
 import 'package:student_internships_management/models/Teacher.dart';
+import 'package:student_internships_management/providers/ClassroomProvider.dart';
+import 'package:student_internships_management/providers/CompanyProvider.dart';
+import 'package:student_internships_management/providers/MajorProvider.dart';
+import 'package:student_internships_management/providers/StudentProvider.dart';
+import 'package:student_internships_management/providers/TeacherProvider.dart';
 import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
 import 'package:student_internships_management/widgets/App/AppBar.dart';
 import 'package:student_internships_management/widgets/App/BouncingButton.dart';
@@ -11,16 +18,14 @@ import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 
 class CreateOrEditStudent extends StatefulWidget {
   final Student student;
-  final List<Student> listView;
-  final int index;
-  final Function(VoidCallback fn) setStateView;
+  final String classroomId;
+  final String departmentId;
 
   const CreateOrEditStudent({
     Key key,
     this.student,
-    this.listView,
-    this.index,
-    this.setStateView,
+    this.classroomId,
+    this.departmentId,
   }) : super(key: key);
 
   @override
@@ -29,12 +34,18 @@ class CreateOrEditStudent extends StatefulWidget {
 
 class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     with SingleTickerProviderStateMixin {
-  String conChuyenNganh, conNoiThucTap, conGiangVien, conLopHocPhan;
+  Classroom conLopHocPhan;
+  Company conNoiThucTap;
+  Major conChuyenNganh;
+  Teacher conGiangVien;
   Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
   AnimationController animationController;
 
   Student student;
-  String classroomId;
+  List<Classroom> classes = [];
+  List<Company> companies = [];
+  List<Major> majors = [];
+  List<Teacher> teachers = [];
 
   TextEditingController conMaSinhVien = TextEditingController();
   TextEditingController conTenSinhVien = TextEditingController();
@@ -43,8 +54,62 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    var classroomProvider = Provider.of<ClassroomProvider>(
+      context,
+      listen: false,
+    );
+    classroomProvider.findAll(widget.departmentId).then((value) {
+      conLopHocPhan =
+          value.firstWhere((element) => element.id == widget.classroomId);
+      setState(() {
+        classes = value;
+      });
+    });
+
+    var companyProvider = Provider.of<CompanyProvider>(
+      context,
+      listen: false,
+    );
+    companyProvider.findAll().then((value) {
+      if (widget.student != null) {
+        conNoiThucTap = value.firstWhere(
+            (element) => element.id == widget.student.noiThucTap.id);
+      }
+      setState(() {
+        companies = value;
+      });
+    });
+
+    var majorProvider = Provider.of<MajorProvider>(
+      context,
+      listen: false,
+    );
+    majorProvider.findAll(widget.departmentId).then((value) {
+      if (widget.student != null) {
+        conChuyenNganh = value.firstWhere(
+            (element) => element.id == widget.student.chuyenNganh.id);
+      }
+      setState(() {
+        majors = value;
+      });
+    });
+
+    var teacherProvider = Provider.of<TeacherProvider>(
+      context,
+      listen: false,
+    );
+    teacherProvider.findAll(widget.departmentId).then((value) {
+      if (widget.student != null) {
+        conGiangVien = value.firstWhere(
+            (element) => element.id == widget.student.giangVienHuongDan.id);
+      }
+      setState(() {
+        teachers = value;
+      });
+    });
+
     student = widget.student;
-    classroomId = widget.student.lopHocPhan.id;
 
     conMaSinhVien.text = student?.maSinhVien;
     conTenSinhVien.text = student?.tenSinhVien;
@@ -52,7 +117,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     conChuyenNganh = student?.chuyenNganh;
     conNoiThucTap = student?.noiThucTap;
     conGiangVien = student?.giangVienHuongDan;
-    conLopHocPhan = student?.lopHocPhan?.tenLop;
+    conLopHocPhan = student?.lopHocPhan;
 
     animationController = AnimationController(
       duration: Duration(seconds: 3),
@@ -159,6 +224,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: TextFormField(
+                            enabled: widget.student == null,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Vui lòng nhập mã sinh viên';
@@ -203,6 +269,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: TextFormField(
+                            enabled: widget.student == null,
                             controller: conTenSinhVien,
                             minLines: 1,
                             validator: (value) {
@@ -237,25 +304,27 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                     ),
                     Transform(
                       transform: Matrix4.translationValues(
-                          delayedAnimation.value * width, 0, 0),
-                      child: DropdownSearch<String>(
+                        delayedAnimation.value * width,
+                        0,
+                        0,
+                      ),
+                      child: DropdownSearch<Classroom>(
+                        enabled: false,
                         validator: (selectedValue) {
                           if (selectedValue == null) {
                             return 'Vui lòng chọn lớp';
                           }
                           return null;
                         },
-                        showClearButton: true,
                         mode: Mode.MENU,
-                        items: classes?.map((e) => e.tenLop)?.toList() ?? [],
-                        onChanged: (String item) => {
+                        items: classes,
+                        itemAsString: (Classroom item) => item.tenLop,
+                        onChanged: (Classroom item) => {
                           setState(() {
                             conLopHocPhan = item;
                           }),
                         },
-                        selectedItem: widget.student != null
-                            ? widget?.student?.lopHocPhan?.tenLop
-                            : null,
+                        selectedItem: conLopHocPhan,
                       ),
                     ),
                     SizedBox(
@@ -278,7 +347,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                     Transform(
                       transform: Matrix4.translationValues(
                           delayedAnimation.value * width, 0, 0),
-                      child: DropdownSearch<String>(
+                      child: DropdownSearch<Major>(
                         validator: (selectedValue) {
                           if (selectedValue == null) {
                             return 'Vui lòng chọn chuyên ngành';
@@ -287,15 +356,14 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                         },
                         showClearButton: true,
                         mode: Mode.MENU,
-                        items: majors.map((e) => e.tenChuyenNganh).toList(),
-                        onChanged: (String item) => {
+                        items: majors,
+                        itemAsString: (Major item) => item.tenChuyenNganh,
+                        onChanged: (Major item) => {
                           setState(() {
                             conChuyenNganh = item;
                           }),
                         },
-                        selectedItem: widget.student != null
-                            ? widget.student.chuyenNganh
-                            : null,
+                        selectedItem: conChuyenNganh,
                       ),
                     ),
                     SizedBox(
@@ -318,25 +386,23 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                     Transform(
                       transform: Matrix4.translationValues(
                           delayedAnimation.value * width, 0, 0),
-                      child: DropdownSearch<String>(
-                        validator: (String item) {
-                          if (item.isEmpty)
-                            return "Required field";
-                          else
-                            return null; //return null to "no error"
+                      child: DropdownSearch<Teacher>(
+                        validator: (selectedValue) {
+                          if (selectedValue == null) {
+                            return 'Vui lòng chọn giảng viên hướng dẫn';
+                          }
+                          return null;
                         },
-                        showSearchBox: true,
                         showClearButton: true,
                         mode: Mode.MENU,
-                        items: teachers.map((e) => e.tenGiangVien).toList(),
-                        onChanged: (String item) => {
+                        items: teachers,
+                        itemAsString: (Teacher item) => item.tenGiangVien,
+                        onChanged: (Teacher item) => {
                           setState(() {
                             conGiangVien = item;
                           }),
                         },
-                        selectedItem: widget.student != null
-                            ? widget.student.giangVienHuongDan
-                            : null,
+                        selectedItem: conGiangVien,
                       ),
                     ),
                     SizedBox(
@@ -362,25 +428,23 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                     Transform(
                       transform: Matrix4.translationValues(
                           delayedAnimation.value * width, 0, 0),
-                      child: DropdownSearch<String>(
-                        showSearchBox: true,
+                      child: DropdownSearch<Company>(
                         showClearButton: true,
-                        mode: Mode.DIALOG,
+                        mode: Mode.MENU,
                         validator: (selectedValue) {
                           if (selectedValue == null) {
                             return 'Vui lòng chọn nơi thực tập';
                           }
                           return null;
                         },
-                        items: companies.map((e) => e.tenDoanhNghiep).toList(),
-                        onChanged: (String item) => {
+                        items: companies,
+                        itemAsString: (Company item) => item.tenDoanhNghiep,
+                        onChanged: (Company item) => {
                           setState(() {
                             conNoiThucTap = item;
                           }),
                         },
-                        selectedItem: widget.student != null
-                            ? widget.student.noiThucTap
-                            : null,
+                        selectedItem: conNoiThucTap,
                       ),
                     ),
                     SizedBox(
@@ -390,60 +454,35 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                       transform: Matrix4.translationValues(
                           delayedAnimation.value * width, 0, 0),
                       child: BouncingButton(
-                        onPress: () {
+                        onPress: () async {
                           if (_formkey.currentState.validate()) {
-                            final maSinhVien = conMaSinhVien.text;
-                            final tenSinhVien = conTenSinhVien.text;
-                            final chuyenNganh = conChuyenNganh;
-                            final giaoVienHuongDan = conGiangVien;
-                            final noiThucTap = conNoiThucTap;
-                            final tenLop = conLopHocPhan;
-
-                            Teacher teacher = new Teacher(
-                              tenGiangVien: giaoVienHuongDan,
-                              khoa: departments[1],
-                            );
-
-                            Classroom classroom = new Classroom(
-                              tenLop: tenLop,
-                              soLuong: 10,
-                              khoa: departments[1],
-                              giangVien: teacher,
-                            );
-
-                            Student newStudent = new Student(
-                              maSinhVien: maSinhVien,
-                              tenSinhVien: tenSinhVien,
-                              chuyenNganh: chuyenNganh,
-                              giangVienHuongDan: giaoVienHuongDan,
-                              noiThucTap: noiThucTap,
-                              lopHocPhan: classroom,
-                            );
-
-                            if (widget.setStateView == null) {
-                              students.add(newStudent);
-                            } else {
-                              widget.setStateView(() {
-                                widget.listView[widget.index].setMaSinhVien =
-                                    newStudent.maSinhVien;
-                                widget.listView[widget.index].setTenSinhVien =
-                                    newStudent.tenSinhVien;
-                                widget.listView[widget.index].setNoiThucTap =
-                                    newStudent.noiThucTap;
-                                widget.listView[widget.index].setChuyenNganh =
-                                    newStudent.chuyenNganh;
-                                widget.listView[widget.index].setGiangVien =
-                                    newStudent.giangVienHuongDan;
-                                widget.listView[widget.index].setLop =
-                                    newStudent.lopHocPhan;
-                              });
+                            String studentId = '0';
+                            if (widget.student != null) {
+                              studentId = widget.student.id;
                             }
+                            Student newStudent = new Student(
+                              id: studentId,
+                              maSinhVien: conMaSinhVien.text,
+                              tenSinhVien: conTenSinhVien.text,
+                              chuyenNganh: conChuyenNganh,
+                              giangVienHuongDan: conGiangVien,
+                              noiThucTap: conNoiThucTap,
+                              lopHocPhan: conLopHocPhan,
+                            );
+
+                            var studentProvider = Provider.of<StudentProvider>(
+                              context,
+                              listen: false,
+                            );
+
+                            await studentProvider.createOrUpdate(newStudent);
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => WrapperList(
-                                  classroomId: classroomId,
+                                  classroomId: widget.classroomId,
+                                  departmentId: widget.departmentId,
                                 ),
                               ),
                             );

@@ -61,7 +61,10 @@ class _CardClassroomState extends State<CardClassroom>
               padding: const EdgeInsets.only(top: 3.0),
               child: Transform(
                 transform: Matrix4.translationValues(
-                    delayedAnimation.value * width, 0, 0),
+                  delayedAnimation.value * width,
+                  0,
+                  0,
+                ),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 13,
@@ -73,8 +76,6 @@ class _CardClassroomState extends State<CardClassroom>
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0, 3),
-                        //blurRadius: 3,
-                        //spreadRadius: 1,
                       ),
                     ],
                     borderRadius: BorderRadius.circular(10),

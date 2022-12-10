@@ -78,9 +78,15 @@ class _WrapperListState extends State<WrapperList>
                     child: TabBarView(
                       children: <Widget>[
                         ListInternship(
-                            isReport: false, classroomId: widget.classroomId),
+                          isReport: false,
+                          classroomId: widget.classroomId,
+                          departmentId: widget.departmentId,
+                        ),
                         ListInternship(
-                            isReport: true, classroomId: widget.classroomId),
+                          isReport: true,
+                          classroomId: widget.classroomId,
+                          departmentId: widget.departmentId,
+                        ),
                       ],
                     ),
                   ),

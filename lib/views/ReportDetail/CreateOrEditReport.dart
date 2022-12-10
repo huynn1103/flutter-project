@@ -305,7 +305,8 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                             final ngayBaoCao = conNgayBaoCao.text;
 
                             Teacher teacher = new Teacher(
-                              tenGiangVien: widget?.student?.giangVienHuongDan,
+                              tenGiangVien: widget
+                                  ?.student?.giangVienHuongDan.tenGiangVien,
                               khoa: departments[1],
                             );
 

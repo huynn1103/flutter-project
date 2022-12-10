@@ -247,7 +247,8 @@ class _StudentDetailState extends State<StudentDetail>
                             minLines: 1,
                             enabled: false,
                             autofocus: false,
-                            initialValue: widget.student.chuyenNganh,
+                            initialValue:
+                                widget.student.chuyenNganh.tenChuyenNganh,
                           ),
                         ),
                       ),
@@ -289,7 +290,8 @@ class _StudentDetailState extends State<StudentDetail>
                             minLines: 1,
                             enabled: false,
                             autofocus: false,
-                            initialValue: widget.student.giangVienHuongDan,
+                            initialValue:
+                                widget.student.giangVienHuongDan.tenGiangVien,
                           ),
                         ),
                       ),
@@ -331,7 +333,8 @@ class _StudentDetailState extends State<StudentDetail>
                             minLines: 1,
                             enabled: false,
                             autofocus: false,
-                            initialValue: widget.student.noiThucTap,
+                            initialValue:
+                                widget.student.noiThucTap.tenDoanhNghiep,
                           ),
                         ),
                       ),
@@ -353,6 +356,7 @@ class _StudentDetailState extends State<StudentDetail>
                             MaterialPageRoute(
                               builder: (context) => WrapperList(
                                 classroomId: widget.student.lopHocPhan.id,
+                                departmentId: widget.student.lopHocPhan.khoa.id,
                               ),
                             ),
                           );

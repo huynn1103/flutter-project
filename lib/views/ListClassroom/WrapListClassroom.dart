@@ -22,8 +22,6 @@ class _WrapListClassroomState extends State<WrapListClassroom>
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    // String departmentId = widget.departmentId ?? '1';
   }
 
   @override

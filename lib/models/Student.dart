@@ -7,34 +7,10 @@ class Student {
   String id;
   String maSinhVien;
   String tenSinhVien;
-  String chuyenNganh;
-  String giangVienHuongDan;
-  String noiThucTap;
+  Major chuyenNganh;
+  Teacher giangVienHuongDan;
+  Company noiThucTap;
   Classroom lopHocPhan;
-
-  set setMaSinhVien(String value) {
-    maSinhVien = value;
-  }
-
-  set setTenSinhVien(String value) {
-    tenSinhVien = value;
-  }
-
-  set setChuyenNganh(String value) {
-    chuyenNganh = value;
-  }
-
-  set setGiangVien(String value) {
-    giangVienHuongDan = value;
-  }
-
-  set setNoiThucTap(String value) {
-    noiThucTap = value;
-  }
-
-  set setLop(Classroom value) {
-    lopHocPhan = value;
-  }
 
   Student({
     this.id,
@@ -60,9 +36,9 @@ class Student {
       id: obj['id'].toString(),
       maSinhVien: obj['maSinhVien'],
       tenSinhVien: obj['tenSinhVien'],
-      chuyenNganh: Major.fromJson(obj['major']).tenChuyenNganh,
-      giangVienHuongDan: Teacher.fromJson(obj['teacher']).tenGiangVien,
-      noiThucTap: Company.fromJson(obj['company']).tenDoanhNghiep,
+      chuyenNganh: Major.fromJson(obj['major']),
+      giangVienHuongDan: Teacher.fromJson(obj['teacher']),
+      noiThucTap: Company.fromJson(obj['company']),
       lopHocPhan: Classroom.fromJson(obj['classroom']),
     );
   }
