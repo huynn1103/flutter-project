@@ -114,7 +114,7 @@ class _ListInternshipState extends State<ListInternship> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: students.length,
+                      itemCount: listStudent.length,
                       padding: widget.isReport == false
                           ? EdgeInsets.only(bottom: 40)
                           : EdgeInsets.only(bottom: 15),
