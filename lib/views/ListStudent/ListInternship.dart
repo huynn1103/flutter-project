@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Student.dart';
 import 'package:student_internships_management/providers/StudentProvider.dart';
+import 'package:student_internships_management/views/ListClassroom/WrapListClassroom.dart';
 import 'package:student_internships_management/views/StudentDetail/CreateOrEditStudent.dart';
 import 'package:student_internships_management/widgets/Student/CardStudent.dart';
 
@@ -38,9 +39,9 @@ class _ListInternshipState extends State<ListInternship> {
     );
     if (widget.classroomId != null) {
       studentProvider.findAll(widget.classroomId).then((value) {
-        value.map((e) => listStudent.add(e)).toList();
         setState(() {
           students = value;
+          listStudent = value;
         });
       });
     } else {
@@ -48,30 +49,33 @@ class _ListInternshipState extends State<ListInternship> {
         value.map((e) => listStudent.add(e)).toList();
         setState(() {
           students = value;
+          listStudent = value;
         });
       });
     }
   }
 
-  // void filterSearchResults(String querySearch) {
-  //   if (querySearch.isNotEmpty) {
-  //     listStudent.forEach((item) {
-  //       if (item.tenSinhVien.contains(querySearch)) {
-  //         listStudent.add(item);
-  //       }
-  //     });
-  //     setState(() {
-  //       listStudent.clear();
-  //       listStudent = students;
-  //     });
-  //     return;
-  //   } else {
-  //     setState(() {
-  //       listStudent.clear();
-  //       listStudent = students;
-  //     });
-  //   }
-  // }
+  void filterSearchResults(String querySearch) {
+    if (querySearch.isNotEmpty) {
+      List<Student> listStudentSearch = [];
+      students.forEach((item) {
+        if (item.tenSinhVien
+            .toLowerCase()
+            .contains(querySearch.toLowerCase().trim())) {
+          listStudentSearch.add(item);
+        }
+      });
+      setState(() {
+        listStudent = listStudentSearch;
+      });
+    } else {
+      setState(() {
+        listStudent = students;
+      });
+    }
+
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +93,7 @@ class _ListInternshipState extends State<ListInternship> {
                   ),
                   TextField(
                     onChanged: (value) {
-                      // filterSearchResults(value);
+                      filterSearchResults(value);
                       // editingController.clear();
                     },
                     autofocus: false,
@@ -118,9 +122,6 @@ class _ListInternshipState extends State<ListInternship> {
                         return Container(
                           child: CardStudent(
                             student: listStudent[index],
-                            listView: listStudent,
-                            index: index,
-                            setState: setState,
                             isReport: widget.isReport,
                           ),
                         );
@@ -154,18 +155,18 @@ class _ListInternshipState extends State<ListInternship> {
         opacity: .2,
         currentIndex: _bottomNavIndex,
         onTap: (int index) {
+          setState(() {
+            _bottomNavIndex = index;
+          });
           if (index == 0) {
-            setState(() {
-              _bottomNavIndex = index;
-            });
-          } else if (index == 1) {
-            _bottomNavIndex = index;
-          } else if (index == 2) {
-            _bottomNavIndex = index;
-          } else if (index == 3) {
-            _bottomNavIndex = index;
-          } else {
-            _bottomNavIndex = index;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WrapListClassroom(
+                  departmentId: widget.departmentId,
+                ),
+              ),
+            );
           }
         },
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -181,49 +182,53 @@ class _ListInternshipState extends State<ListInternship> {
         //optional, uses theme color if not specified
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-              backgroundColor: Colors.red,
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.dashboard,
-                color: Colors.red,
-              ),
-              title: Text("Home")),
+            backgroundColor: Colors.indigo,
+            icon: Icon(
+              Icons.dashboard,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.dashboard,
+              color: Colors.indigo,
+            ),
+            title: Text("Home"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.deepPurple,
-              icon: Icon(
-                Icons.access_time,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.access_time,
-                color: Colors.deepPurple,
-              ),
-              title: Text("Logs")),
+            backgroundColor: Colors.orange,
+            icon: Icon(
+              Icons.access_time,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.access_time,
+              color: Colors.orange,
+            ),
+            title: Text("Logs"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.indigo,
-              icon: Icon(
-                Icons.folder_open,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.folder_open,
-                color: Colors.indigo,
-              ),
-              title: Text("Folders")),
+            backgroundColor: Colors.green,
+            icon: Icon(
+              Icons.folder_open,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.folder_open,
+              color: Colors.green,
+            ),
+            title: Text("Folders"),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.green,
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.menu,
-                color: Colors.green,
-              ),
-              title: Text("Menu"))
+            backgroundColor: Colors.purple,
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
+              Icons.menu,
+              color: Colors.purple,
+            ),
+            title: Text("Menu"),
+          )
         ],
       ),
     );

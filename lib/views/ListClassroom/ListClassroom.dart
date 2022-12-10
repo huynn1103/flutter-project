@@ -1,7 +1,5 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:pandabar/main.view.dart';
-import 'package:pandabar/pandabar.dart';
 import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Classroom.dart';
 import 'package:student_internships_management/providers/ClassroomProvider.dart';
@@ -70,19 +68,9 @@ class _ListClassroomState extends State<ListClassroom> {
         opacity: .2,
         currentIndex: _bottomNavIndex,
         onTap: (int index) {
-          if (index == 0) {
-            setState(() {
-              _bottomNavIndex = index;
-            });
-          } else if (index == 1) {
+          setState(() {
             _bottomNavIndex = index;
-          } else if (index == 2) {
-            _bottomNavIndex = index;
-          } else if (index == 3) {
-            _bottomNavIndex = index;
-          } else {
-            _bottomNavIndex = index;
-          }
+          });
         },
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         //new
@@ -94,50 +82,50 @@ class _ListClassroomState extends State<ListClassroom> {
         //optional, uses theme color if not specified
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.indigo,
             icon: Icon(
               Icons.dashboard,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.dashboard,
-              color: Colors.red,
+              color: Colors.indigo,
             ),
             title: Text("Home"),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: Colors.orange,
             icon: Icon(
               Icons.access_time,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.access_time,
-              color: Colors.deepPurple,
+              color: Colors.orange,
             ),
             title: Text("Logs"),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.green,
             icon: Icon(
               Icons.folder_open,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.folder_open,
-              color: Colors.indigo,
+              color: Colors.green,
             ),
             title: Text("Folders"),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.purple,
             icon: Icon(
               Icons.menu,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.menu,
-              color: Colors.green,
+              color: Colors.purple,
             ),
             title: Text("Menu"),
           )

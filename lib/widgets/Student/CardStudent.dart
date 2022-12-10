@@ -10,19 +10,13 @@ import 'package:student_internships_management/views/StudentDetail/StudentDetail
 
 class CardStudent extends StatefulWidget {
   final Student student;
-  final List<Student> listView;
-  final int index;
-  final Function(VoidCallback fn) setState;
   final bool isReport;
 
-  const CardStudent(
-      {Key key,
-      this.student,
-      this.listView,
-      this.index,
-      this.setState,
-      this.isReport})
-      : super(key: key);
+  const CardStudent({
+    Key key,
+    this.student,
+    this.isReport,
+  }) : super(key: key);
 
   @override
   _CardStudentState createState() => _CardStudentState();
