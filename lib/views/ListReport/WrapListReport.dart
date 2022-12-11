@@ -58,7 +58,10 @@ class _WrapListReportState extends State<WrapListReport>
                         unselectedLabelColor: Colors.black26,
                         indicatorColor: Colors.black,
                         tabs: [
-                          Tab(text: 'Danh sách báo cáo của sinh viên'),
+                          Tab(
+                            text:
+                                'Danh sách báo cáo của sinh viên ${widget.student.tenSinhVien}',
+                          ),
                         ],
                       ),
                     ),

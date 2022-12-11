@@ -4,16 +4,10 @@ import 'package:student_internships_management/views/ListStudent/WrapperList.dar
 
 class CardClassroom extends StatefulWidget {
   final Classroom classroom;
-  final List<Classroom> listView;
-  final int index;
-  final Function(VoidCallback fn) setState;
 
   const CardClassroom({
     Key key,
     this.classroom,
-    this.listView,
-    this.index,
-    this.setState,
   }) : super(key: key);
 
   @override

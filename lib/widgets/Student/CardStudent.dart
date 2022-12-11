@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Student.dart';
 import 'package:student_internships_management/providers/StudentProvider.dart';
-import 'package:student_internships_management/views/ListReport/ListReport.dart';
 import 'package:student_internships_management/views/ListReport/WrapListReport.dart';
 import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
 import 'package:student_internships_management/views/StudentDetail/CreateOrEditStudent.dart';
@@ -206,7 +205,7 @@ class _CardStudentState extends State<CardStudent>
 
                                                 final snackBar = SnackBar(
                                                   content: const Text(
-                                                    'Đã xoá thành công',
+                                                    'Đã xóa thành công',
                                                   ),
                                                 );
                                                 ScaffoldMessenger.of(context)

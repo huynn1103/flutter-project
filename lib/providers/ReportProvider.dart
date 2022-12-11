@@ -29,31 +29,30 @@ class ReportProvider extends ChangeNotifier {
     return Report.fromJson(jsonObject);
   }
 
-  Future<bool> create(Report model) async {
-    String apiURL = 'http://localhost:5000/report/';
+  Future<bool> createOrUpdate(Report model) async {
     var client = http.Client();
     Map<String, String> headers = {"Content-type": "application/json"};
-    String body = '{"deTai": "${model.deTai}"}';
-    http.Response response = await client.post(
-      Uri.parse(apiURL),
-      headers: headers,
-      body: body,
-    );
-    debugPrint('Create report.');
-    return response.statusCode == 200;
-  }
+    String body =
+        '{"deTai": "${model.deTai}", "noiDung": "${model.noiDung}", "ngayBaoCao": "${model.ngayBaoCao}", "studentId": "${model.student.id}"}';
+    http.Response response;
 
-  Future<bool> update(Report model) async {
-    String apiURL = 'http://localhost:5000/report/${model.id}';
-    var client = http.Client();
-    Map<String, String> headers = {"Content-type": "application/json"};
-    String body = '{"deTai": "${model.deTai}"}';
-    http.Response response = await client.patch(
-      Uri.parse(apiURL),
-      headers: headers,
-      body: body,
-    );
-    debugPrint('Update report.');
+    if (model.id == '0') {
+      String apiURL = 'http://localhost:5000/report/';
+      response = await client.post(
+        Uri.parse(apiURL),
+        headers: headers,
+        body: body,
+      );
+      debugPrint('Create report.');
+    } else {
+      String apiURL = 'http://localhost:5000/report/${model.id}';
+      response = await client.patch(
+        Uri.parse(apiURL),
+        headers: headers,
+        body: body,
+      );
+      debugPrint('Update report.');
+    }
     return response.statusCode == 200;
   }
 

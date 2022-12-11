@@ -1,10 +1,9 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:student_internships_management/data/dummyData.dart';
-import 'package:student_internships_management/models/Classroom.dart';
+import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Report.dart';
 import 'package:student_internships_management/models/Student.dart';
-import 'package:student_internships_management/models/Teacher.dart';
+import 'package:student_internships_management/providers/ReportProvider.dart';
 import 'package:student_internships_management/views/ListReport/WrapListReport.dart';
 import 'package:student_internships_management/widgets/App/AppBar.dart';
 import 'package:student_internships_management/widgets/App/BouncingButton.dart';
@@ -13,20 +12,12 @@ import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 class CreateOrEditReport extends StatefulWidget {
   final Student student;
   final Report report;
-  final List<Report> listView;
-  final int index;
-  final Function(VoidCallback fn) setStateView;
-  final deTai;
 
-  const CreateOrEditReport(
-      {Key key,
-      this.report,
-      this.listView,
-      this.index,
-      this.setStateView,
-      this.student,
-      this.deTai})
-      : super(key: key);
+  const CreateOrEditReport({
+    Key key,
+    this.report,
+    this.student,
+  }) : super(key: key);
 
   @override
   _CreateOrEditReportState createState() => _CreateOrEditReportState();
@@ -34,30 +25,25 @@ class CreateOrEditReport extends StatefulWidget {
 
 class _CreateOrEditReportState extends State<CreateOrEditReport>
     with SingleTickerProviderStateMixin {
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  Animation animation, delayedAnimation, muchDelayedAnimation;
   AnimationController animationController;
 
-  final searchFieldController = TextEditingController();
-  final conDeTai = TextEditingController();
-  final conNoiDung = TextEditingController();
-  final conNgayBaoCao = TextEditingController();
   Report report;
+  TextEditingController searchFieldController = TextEditingController();
+  TextEditingController conDeTai = TextEditingController();
+  TextEditingController conNoiDung = TextEditingController();
+  TextEditingController conNgayBaoCao = TextEditingController();
   String conNgayBaoCaoChanged = '';
 
   @override
   void initState() {
     super.initState();
-    report = widget.report;
 
-    if (widget.deTai != null) {
-      conDeTai.text = widget?.deTai;
-    } else {
-      conDeTai.text = report?.deTai;
+    if (widget.report != null) {
+      conDeTai.text = widget.report.deTai;
+      conNoiDung.text = widget.report.noiDung;
+      conNgayBaoCao.text = widget.report.ngayBaoCao.toString();
     }
-
-    conNoiDung.text = report?.noiDung;
-
-    conNgayBaoCao.text = report?.ngayBaoCao.toString();
 
     animationController =
         AnimationController(duration: Duration(seconds: 3), vsync: this);
@@ -159,15 +145,17 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                           child: TextFormField(
                             controller: conDeTai,
                             minLines: 1,
-                            enabled: widget.deTai == null ? true : false,
+                            enabled: widget.report == null,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Vui lòng nhập tên đề tài';
                               }
                               return null;
                             },
+                            autofocus: false,
                             decoration: const InputDecoration(
                               hintText: 'Nhập vào tên đề tài',
+                              border: UnderlineInputBorder(),
                             ),
                           ),
                         ),
@@ -209,16 +197,24 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                               child: Container(
                                 width: width * 0.75,
                                 child: DateTimePicker(
+                                  autofocus: false,
                                   type: DateTimePickerType.date,
                                   dateMask: 'dd/MM/yyyy',
                                   controller: conNgayBaoCao,
                                   firstDate: DateTime(2000),
                                   lastDate: DateTime(2100),
                                   calendarTitle: "Ngày báo cáo",
-                                  confirmText: "Confirm",
+                                  confirmText: "CONFIRM",
                                   enableSuggestions: true,
-                                  onChanged: (val) => setState(
-                                      () => conNgayBaoCaoChanged = val),
+                                  validator: (selectedValue) {
+                                    if (selectedValue == null) {
+                                      return 'Vui lòng chọn ngày báo cáo';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (String val) => {
+                                    setState(() => conNgayBaoCao.text = val),
+                                  },
                                 ),
                               ),
                             ),
@@ -272,16 +268,15 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                             maxLines: 10,
                             controller: conNoiDung,
                             keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng nhập nội dung báo cáo';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
-                              suffixIcon: searchFieldController.text.isNotEmpty
-                                  ? IconButton(
-                                      icon: Icon(Icons.clear),
-                                      onPressed: () => WidgetsBinding.instance
-                                          .addPostFrameCallback((_) =>
-                                              searchFieldController.clear()))
-                                  : null,
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.all(7),
+                              hintText: 'Nhập vào nội dung báo cáo',
+                              border: UnderlineInputBorder(),
                             ),
                           ),
                         ),
@@ -298,61 +293,32 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                       transform: Matrix4.translationValues(
                           delayedAnimation.value * width, 0, 0),
                       child: BouncingButton(
-                        onPress: () {
+                        onPress: () async {
                           if (_formkey.currentState.validate()) {
-                            final deTai = conDeTai.text;
-                            final noiDung = conNoiDung.text;
-                            final ngayBaoCao = conNgayBaoCao.text;
-
-                            Teacher teacher = new Teacher(
-                              tenGiangVien: widget
-                                  ?.student?.giangVienHuongDan.tenGiangVien,
-                              khoa: departments[1],
-                            );
-
-                            Classroom classroom = new Classroom(
-                              tenLop: widget?.student?.lopHocPhan?.tenLop,
-                              soLuong: 10,
-                              khoa: departments[1],
-                              giangVien: teacher,
-                            );
-
-                            Student student = new Student(
-                              maSinhVien: widget?.student?.maSinhVien,
-                              tenSinhVien: widget?.student?.tenSinhVien,
-                              chuyenNganh: widget?.student?.chuyenNganh,
-                              giangVienHuongDan:
-                                  widget?.student?.giangVienHuongDan,
-                              noiThucTap: widget?.student?.noiThucTap,
-                              lopHocPhan: classroom,
-                            );
-
-                            Report newReport = new Report(
-                              student: student,
-                              deTai: deTai,
-                              noiDung: noiDung,
-                              ngayBaoCao: DateTime.parse(ngayBaoCao),
-                            );
-
-                            if (widget.setStateView == null) {
-                              reports.add(newReport);
-                            } else {
-                              widget.setStateView(() {
-                                widget.listView[widget.index].setDeTai =
-                                    newReport.deTai;
-                                widget.listView[widget.index].setNgayBaoCao =
-                                    newReport.ngayBaoCao;
-                                widget.listView[widget.index].setNoiDung =
-                                    newReport.noiDung;
-                                widget.listView[widget.index].setStudent =
-                                    student;
-                              });
+                            String reportId = '0';
+                            if (widget.report != null) {
+                              reportId = widget.report.id;
                             }
+                            Report newReport = new Report(
+                              id: reportId,
+                              student: widget.student,
+                              deTai: conDeTai.text,
+                              noiDung: conNoiDung.text,
+                              ngayBaoCao: DateTime.parse(conNgayBaoCao.text),
+                            );
+
+                            var reportProvider = Provider.of<ReportProvider>(
+                              context,
+                              listen: false,
+                            );
+
+                            await reportProvider.createOrUpdate(newReport);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => WrapListReport(
-                                  student: student,
+                                  student: widget.student,
                                 ),
                               ),
                             );

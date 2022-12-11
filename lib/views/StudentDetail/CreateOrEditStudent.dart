@@ -34,14 +34,14 @@ class CreateOrEditStudent extends StatefulWidget {
 
 class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     with SingleTickerProviderStateMixin {
+  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
+  AnimationController animationController;
+
   Classroom conLopHocPhan;
   Company conNoiThucTap;
   Major conChuyenNganh;
   Teacher conGiangVien;
-  Animation animation, delayedAnimation, muchDelayedAnimation, LeftCurve;
-  AnimationController animationController;
 
-  Student student;
   List<Classroom> classes = [];
   List<Company> companies = [];
   List<Major> majors = [];
@@ -109,15 +109,14 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
       });
     });
 
-    student = widget.student;
-
-    conMaSinhVien.text = student?.maSinhVien;
-    conTenSinhVien.text = student?.tenSinhVien;
-
-    conChuyenNganh = student?.chuyenNganh;
-    conNoiThucTap = student?.noiThucTap;
-    conGiangVien = student?.giangVienHuongDan;
-    conLopHocPhan = student?.lopHocPhan;
+    if (widget.student != null) {
+      conMaSinhVien.text = widget.student.maSinhVien;
+      conTenSinhVien.text = widget.student.tenSinhVien;
+      conChuyenNganh = widget.student.chuyenNganh;
+      conNoiThucTap = widget.student.noiThucTap;
+      conGiangVien = widget.student.giangVienHuongDan;
+      conLopHocPhan = widget.student.lopHocPhan;
+    }
 
     animationController = AnimationController(
       duration: Duration(seconds: 3),
@@ -151,6 +150,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
     animationController.dispose();
     conMaSinhVien.dispose();
     conTenSinhVien.dispose();
+
     super.dispose();
   }
 
@@ -224,6 +224,8 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: TextFormField(
+                            controller: conMaSinhVien,
+                            minLines: 1,
                             enabled: widget.student == null,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -231,8 +233,6 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                               }
                               return null;
                             },
-                            controller: conMaSinhVien,
-                            minLines: 1,
                             autofocus: false,
                             decoration: const InputDecoration(
                               hintText: 'Nhập vào mã sinh viên',

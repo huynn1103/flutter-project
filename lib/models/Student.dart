@@ -22,15 +22,6 @@ class Student {
     this.lopHocPhan,
   });
 
-  Student.cloneByObject(Student s) {
-    this.maSinhVien = s.maSinhVien;
-    this.tenSinhVien = s.tenSinhVien;
-    this.chuyenNganh = s.chuyenNganh;
-    this.giangVienHuongDan = s.giangVienHuongDan;
-    this.noiThucTap = s.noiThucTap;
-    this.lopHocPhan = s.lopHocPhan;
-  }
-
   factory Student.fromJson(Map<String, dynamic> obj) {
     return Student(
       id: obj['id'].toString(),

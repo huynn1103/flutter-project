@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_internships_management/views/ListStudent/ListInternship.dart';
-import 'package:student_internships_management/views/ListReport/ListReport.dart';
 import 'package:student_internships_management/widgets/App/AppBar.dart';
 import 'package:student_internships_management/widgets/App/AppCardDetail.dart';
 import 'package:student_internships_management/widgets/App/MainDrawer.dart';

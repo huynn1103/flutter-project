@@ -1,22 +1,19 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_internships_management/models/Report.dart';
+import 'package:student_internships_management/providers/ReportProvider.dart';
+import 'package:student_internships_management/views/ListReport/WrapListReport.dart';
 import 'package:student_internships_management/views/ReportDetail/CreateOrEditReport.dart';
 import 'package:student_internships_management/views/ReportDetail/ReportDetail.dart';
 
 class CardReport extends StatefulWidget {
   final Report report;
-  final List<Report> listView;
-  final int index;
-  final Function(VoidCallback fn) setState;
 
-  const CardReport(
-      {Key key,
-      @required this.report,
-      @required this.listView,
-      @required this.index,
-      @required this.setState})
-      : super(key: key);
+  const CardReport({
+    Key key,
+    @required this.report,
+  }) : super(key: key);
 
   @override
   _CardReportState createState() => _CardReportState();
@@ -133,9 +130,7 @@ class _CardReportState extends State<CardReport>
                                               builder: (context) =>
                                                   CreateOrEditReport(
                                                 report: widget.report,
-                                                listView: widget.listView,
-                                                index: widget.index,
-                                                setStateView: widget.setState,
+                                                student: widget.report.student,
                                               ),
                                             ),
                                           );
@@ -173,30 +168,32 @@ class _CardReportState extends State<CardReport>
                                               MaterialStateProperty.all(Colors
                                                   .redAccent), // button color
                                         ),
-                                        onPressed: () {
-                                          Report tempReport =
-                                              new Report.cloneByObject(
-                                                  widget.report);
+                                        onPressed: () async {
+                                          var reportProvider =
+                                              Provider.of<ReportProvider>(
+                                            context,
+                                            listen: false,
+                                          );
 
-                                          widget.setState(() {
-                                            widget.listView
-                                                .removeAt(widget.index);
-                                          });
+                                          await reportProvider
+                                              .delete(widget.report.id);
+
                                           final snackBar = SnackBar(
                                             content:
-                                                const Text('Đã xoá thành công'),
-                                            action: SnackBarAction(
-                                              label: 'Khôi phục',
-                                              onPressed: () {
-                                                widget.setState(() {
-                                                  widget.listView
-                                                      .add(tempReport);
-                                                });
-                                              },
-                                            ),
+                                                const Text('Đã xóa thành công'),
                                           );
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
+
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WrapListReport(
+                                                student: widget.report.student,
+                                              ),
+                                            ),
+                                          );
                                         },
                                         child: Column(
                                           mainAxisAlignment:
@@ -229,9 +226,6 @@ class _CardReportState extends State<CardReport>
               MaterialPageRoute(
                 builder: (context) => ReportDetail(
                   report: widget.report,
-                  index: widget.index,
-                  listView: widget.listView,
-                  setState: widget.setState,
                 ),
               ),
             );

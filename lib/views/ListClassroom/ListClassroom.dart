@@ -57,9 +57,6 @@ class _ListClassroomState extends State<ListClassroom> {
                 return Container(
                   child: CardClassroom(
                     classroom: classes[index],
-                    listView: classes,
-                    index: index,
-                    setState: setState,
                   ),
                 );
               },

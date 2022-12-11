@@ -1,26 +1,18 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:student_internships_management/models/Report.dart';
-import 'package:student_internships_management/models/Student.dart';
 import 'package:student_internships_management/views/ListReport/WrapListReport.dart';
-import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
 import 'package:student_internships_management/widgets/App/AppBar.dart';
 import 'package:student_internships_management/widgets/App/BouncingButton.dart';
 import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 
 class ReportDetail extends StatefulWidget {
   final Report report;
-  final List<Report> listView;
-  final int index;
-  final Function(VoidCallback fn) setState;
 
-  const ReportDetail(
-      {Key key,
-      @required this.report,
-      @required this.listView,
-      @required this.index,
-      @required this.setState})
-      : super(key: key);
+  const ReportDetail({
+    Key key,
+    @required this.report,
+  }) : super(key: key);
 
   @override
   _ReportDetailState createState() => _ReportDetailState();
@@ -363,9 +355,13 @@ class _ReportDetailState extends State<ReportDetail>
                       child: BouncingButton(
                         onPress: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WrapListReport()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WrapListReport(
+                                student: widget.report.student,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           //height: 20,
