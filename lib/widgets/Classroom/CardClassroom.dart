@@ -86,7 +86,7 @@ class _CardClassroomState extends State<CardClassroom>
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12,
+                              fontSize: 14,
                             ),
                           ),
                           SizedBox(
@@ -97,7 +97,7 @@ class _CardClassroomState extends State<CardClassroom>
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12,
+                              fontSize: 14,
                             ),
                           ),
                         ],

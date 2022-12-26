@@ -60,7 +60,7 @@ class _WrapListReportState extends State<WrapListReport>
                         tabs: [
                           Tab(
                             text:
-                                'Danh sách báo cáo của sinh viên ${widget.student.tenSinhVien}',
+                                'Báo cáo của sinh viên ${widget.student.tenSinhVien}',
                           ),
                         ],
                       ),

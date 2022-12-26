@@ -109,7 +109,7 @@ class _CardStudentState extends State<CardStudent>
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                    fontSize: 14,
                                   ),
                                 )
                               : Text(
@@ -117,7 +117,7 @@ class _CardStudentState extends State<CardStudent>
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                    fontSize: 14,
                                   ),
                                 ),
                         ],

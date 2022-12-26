@@ -50,7 +50,7 @@ class _AppCardDetailState extends State<AppCardDetail>
     if (widget.classroomId != null) {
       classroomProvider.findOne(widget.classroomId).then((value) {
         setState(() {
-          classroomName = value.tenLop;
+          classroomName = value.tenLop.substring(value.tenLop.length - 6);
         });
       });
     }
@@ -109,7 +109,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                 muchDelayedAnimation.value * width, 0, 0),
                             child: Center(
                               child: CircleAvatar(
-                                radius: 28,
+                                radius: 35,
                                 backgroundImage: AssetImage("assets/home.png"),
                               ),
                             ),
@@ -125,7 +125,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: Container(
-                                      padding: EdgeInsets.all(3),
+                                      padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                       decoration: BoxDecoration(
                                         color: Colors.orange[50],
                                         borderRadius: BorderRadius.circular(10),
@@ -134,7 +134,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                         "Khoá K43",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 13,
+                                          fontSize: 14,
                                           color: Colors.deepOrange,
                                         ),
                                       ),
@@ -146,7 +146,7 @@ class _AppCardDetailState extends State<AppCardDetail>
                                       departmentName,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 21,
+                                        fontSize: 18,
                                         color: Colors.white,
                                       ),
                                     ),

@@ -195,7 +195,7 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
                               transform: Matrix4.translationValues(
                                   muchDelayedAnimation.value * width, 0, 0),
                               child: Container(
-                                width: width * 0.75,
+                                width: width * 0.5,
                                 child: DateTimePicker(
                                   autofocus: false,
                                   type: DateTimePickerType.date,

@@ -9,10 +9,13 @@ import 'package:student_internships_management/providers/StudentProvider.dart';
 import 'package:student_internships_management/providers/TeacherProvider.dart';
 import 'package:student_internships_management/views/ListClassroom/WrapListClassroom.dart';
 import 'package:student_internships_management/views/ListStudent/WrapperList.dart';
+import 'package:device_preview/device_preview.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(
+      DevicePreview(
+        builder: (context) => MyApp(), // Wrap your app
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   @override
@@ -41,14 +44,16 @@ class MyApp extends StatelessWidget {
           create: (context) => TeacherProvider(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Quản lý sinh viên thực tập',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: WrapListClassroom(
-          departmentId: '1',
+      child: SafeArea(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Quản lý sinh viên thực tập',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: WrapListClassroom(
+            departmentId: '1',
+          ),
         ),
       ),
     );
