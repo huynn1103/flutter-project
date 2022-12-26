@@ -225,6 +225,7 @@ class _CardStudentState extends State<CardStudent>
                                                           .lopHocPhan
                                                           .khoa
                                                           .id,
+                                                      tabViewIndex: 0,
                                                     ),
                                                   ),
                                                 );

@@ -115,6 +115,7 @@ class _CardClassroomState extends State<CardClassroom>
                 builder: (context) => WrapperList(
                   classroomId: widget.classroom.id,
                   departmentId: widget.classroom.khoa.id,
+                  tabViewIndex: 0,
                 ),
               ),
             );

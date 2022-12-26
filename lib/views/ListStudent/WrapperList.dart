@@ -7,11 +7,13 @@ import 'package:student_internships_management/widgets/App/MainDrawer.dart';
 class WrapperList extends StatefulWidget {
   final String classroomId;
   final String departmentId;
+  final int tabViewIndex;
 
   const WrapperList({
     Key key,
     this.classroomId,
     this.departmentId,
+    this.tabViewIndex,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class _WrapperListState extends State<WrapperList>
             ),
             DefaultTabController(
               length: 2, // length of tabs
-              initialIndex: 0,
+              initialIndex: widget.tabViewIndex,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[

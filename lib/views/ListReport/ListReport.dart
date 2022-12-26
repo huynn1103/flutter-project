@@ -94,6 +94,7 @@ class _ListReportInternshipState extends State<ListReportInternship> {
                 builder: (context) => WrapperList(
                   classroomId: widget.student.lopHocPhan.id,
                   departmentId: widget.student.lopHocPhan.khoa.id,
+                  tabViewIndex: 1,
                 ),
               ),
             );

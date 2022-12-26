@@ -357,6 +357,7 @@ class _StudentDetailState extends State<StudentDetail>
                               builder: (context) => WrapperList(
                                 classroomId: widget.student.lopHocPhan.id,
                                 departmentId: widget.student.lopHocPhan.khoa.id,
+                                tabViewIndex: 0,
                               ),
                             ),
                           );

@@ -483,6 +483,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
                                 builder: (context) => WrapperList(
                                   classroomId: widget.classroomId,
                                   departmentId: widget.departmentId,
+                                  tabViewIndex: 0,
                                 ),
                               ),
                             );
