@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:student_internships_management/models/Company.dart';
 
 class CompanyProvider extends ChangeNotifier {
-  Future<List<Company>> findAll() async {
+  Future<List<Company>> findAll(String id) async {
     String apiURL = 'http://localhost:5000/company';
+    if (id != '0') apiURL += '?departmentId=${id}';
     var client = http.Client();
     var response = await client.get(Uri.parse(apiURL));
     var jsonObject = jsonDecode(response.body);

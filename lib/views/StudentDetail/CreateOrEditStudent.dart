@@ -71,7 +71,7 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
       context,
       listen: false,
     );
-    companyProvider.findAll().then((value) {
+    companyProvider.findAll(widget.departmentId).then((value) {
       if (widget.student != null) {
         conNoiThucTap = value.firstWhere(
             (element) => element.id == widget.student.noiThucTap.id);
