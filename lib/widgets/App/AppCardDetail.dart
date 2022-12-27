@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_internships_management/models/Classroom.dart';
-import 'package:student_internships_management/models/Department.dart';
 import 'package:student_internships_management/providers/ClassroomProvider.dart';
 import 'package:student_internships_management/providers/DepartmentProvider.dart';
 
@@ -56,7 +54,7 @@ class _AppCardDetailState extends State<AppCardDetail>
     }
 
     animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
     animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.fastOutSlowIn));
 
@@ -66,7 +64,7 @@ class _AppCardDetailState extends State<AppCardDetail>
 
     muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn)));
+        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
   }
 
   @override

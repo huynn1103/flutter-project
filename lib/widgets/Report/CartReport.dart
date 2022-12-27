@@ -29,13 +29,13 @@ class _CardReportState extends State<CardReport>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
     animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.fastOutSlowIn));
 
     delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.2, 0.6, curve: Curves.fastOutSlowIn)));
+        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
   }
 
   @override

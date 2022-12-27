@@ -118,30 +118,18 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
       conLopHocPhan = widget.student.lopHocPhan;
     }
 
-    animationController = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    );
-    animation = Tween(begin: -1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Curves.fastOutSlowIn,
-      ),
-    );
+    animationController =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+    animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
+        parent: animationController, curve: Curves.fastOutSlowIn));
 
-    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
+    delayedAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn),
-      ),
-    );
+        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
 
-    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(
-      CurvedAnimation(
+    muchDelayedAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.3, 0.5, curve: Curves.fastOutSlowIn),
-      ),
-    );
+        curve: Interval(0.2, 0.5, curve: Curves.fastOutSlowIn)));
   }
 
   @override
