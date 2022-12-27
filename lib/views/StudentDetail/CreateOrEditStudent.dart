@@ -465,6 +465,24 @@ class _CreateOrEditStudentState extends State<CreateOrEditStudent>
 
                             await studentProvider.createOrUpdate(newStudent);
 
+                            SnackBar snackBar;
+                            if (studentId == '0') {
+                              snackBar = SnackBar(
+                                content: const Text(
+                                  'Thêm sinh viên thành công',
+                                ),
+                              );
+                            } else {
+                              snackBar = SnackBar(
+                                content: const Text(
+                                  'Sửa sinh viên thành công',
+                                ),
+                              );
+                            }
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

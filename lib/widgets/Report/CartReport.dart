@@ -180,8 +180,9 @@ class _CardReportState extends State<CardReport>
                                               .delete(widget.report.id);
 
                                           final snackBar = SnackBar(
-                                            content:
-                                                const Text('Đã xóa thành công'),
+                                            content: const Text(
+                                              'Xóa báo cáo thành công',
+                                            ),
                                           );
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);

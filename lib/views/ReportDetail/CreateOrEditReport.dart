@@ -314,6 +314,24 @@ class _CreateOrEditReportState extends State<CreateOrEditReport>
 
                             await reportProvider.createOrUpdate(newReport);
 
+                            SnackBar snackBar;
+                            if (reportId == '0') {
+                              snackBar = SnackBar(
+                                content: const Text(
+                                  'Thêm báo cáo thành công',
+                                ),
+                              );
+                            } else {
+                              snackBar = SnackBar(
+                                content: const Text(
+                                  'Sửa báo cáo thành công',
+                                ),
+                              );
+                            }
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

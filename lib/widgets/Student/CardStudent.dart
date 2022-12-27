@@ -199,7 +199,7 @@ class _CardStudentState extends State<CardStudent>
 
                                                 final snackBar = SnackBar(
                                                   content: const Text(
-                                                    'Đã xóa thành công',
+                                                    'Xóa sinh viên thành công',
                                                   ),
                                                 );
                                                 ScaffoldMessenger.of(context)
